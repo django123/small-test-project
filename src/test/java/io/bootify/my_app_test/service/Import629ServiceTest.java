@@ -1487,5 +1487,15 @@ class Import629ServiceTest {
     void testConvertStringToDate3() {
         assertNull(import629Service.convertStringToDate("2020/03/01"));
     }
+
+    /**
+     * Method under test: {@link Import629Service#SixteenFirstCaracter(String)}
+     */
+    @Test
+    void testSixteenFirstCaracter() {
+        assertEquals("Str", Import629Service.SixteenFirstCaracter("Str"));
+        assertEquals("io.bootify.my_ap",
+                Import629Service.SixteenFirstCaracter("io.bootify.my_app_test.domain.Operation"));
+    }
 }
 

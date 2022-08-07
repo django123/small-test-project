@@ -175,4 +175,9 @@ public class Import629Service {
         }
     }
 
+    public static String SixteenFirstCaracter(String str){
+
+        return str.length() < 16 ? str: str.substring(0, 16);
+    }
+
 }
