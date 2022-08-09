@@ -6,6 +6,8 @@ import io.bootify.my_app_test.model.Import629DTO;
 import io.bootify.my_app_test.repos.OperationRepository;
 import io.bootify.my_app_test.service.Import629Service;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;

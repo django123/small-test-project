@@ -42,6 +42,8 @@ public class Import629DTO {
 
     private Date dateAop;
 
+    private String libac;
+
     private UUID importOperation;
 
 

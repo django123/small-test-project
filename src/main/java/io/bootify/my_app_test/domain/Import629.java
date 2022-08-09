@@ -54,6 +54,8 @@ public class Import629 {
 
     private Date dateAop;
 
+    private String libac;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "import_operation_id")
     private Operation importOperation;
