@@ -1,7 +1,5 @@
 package io.bootify.my_app_test.rest;
 
-import io.bootify.my_app_test.domain.Import629;
-import io.bootify.my_app_test.model.Import629DTO;
 import io.bootify.my_app_test.model.OperationDTO;
 import io.bootify.my_app_test.service.Import629Service;
 import io.bootify.my_app_test.service.OperationService;

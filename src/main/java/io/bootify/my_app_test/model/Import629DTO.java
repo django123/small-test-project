@@ -1,15 +1,12 @@
 package io.bootify.my_app_test.model;
 
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.UUID;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import io.bootify.my_app_test.domain.Operation;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter

@@ -1,6 +1,5 @@
 package io.bootify.my_app_test.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bootify.my_app_test.domain.Import629;
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.Import629DTO;
@@ -17,7 +16,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
