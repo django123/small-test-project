@@ -1,5 +1,7 @@
 package io.bootify.my_app_test.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bootify.my_app_test.domain.Import629;
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.Import629DTO;
@@ -10,14 +12,14 @@ import io.bootify.my_app_test.repos.OperationRepository;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -39,7 +41,7 @@ public class Import629Service {
             "    \"rib\": \"0081500000070464\",\n" +
             "    \"typeImport\": \"import630_10254\",\n" +
             "    \"id\": \"20afc36f-b0d6-47e3-ba5b-24c37e650399\",\n" +
-            "    \"libac\": \"LEIV254 DTNBP00049741043440IC020408GJJc75056\"\n" +
+            "    \"libBAC\": \"LEIV254 DTNBP00049741043440IC020408GJJc75056\"\n" +
             "}\n";
 
     public Import629Service(final Import629Repository import629Repository,
@@ -55,8 +57,9 @@ public class Import629Service {
 
                 try {
                     Operation operation = operationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-                    JSONObject jsonObject = new JSONObject(json);
-                    System.err.println(jsonObject);
+                    //JSONObject jsonObject = new JSONObject(json);
+                    ObjectMapper mapper = new ObjectMapper();
+                    JsonNode jsonNode = mapper.readTree(json);
                         if (operation.getId() != null && operation.getMtnComp() <= 40){
                             imp.setMnt1(operation.getMtnComp());
                             imp.setMtn2(-operation.getMtnComp());
@@ -64,7 +67,7 @@ public class Import629Service {
                             imp.setSiegeDenot(operation.getSdbr2());
                             imp.setDateTreso(convertDateToString(new Date()));
                             imp.setDateAop(convertStringToDate("20220723"));
-                            imp.setLibac(jsonObject.getString("libac"));
+                            imp.setLibac(jsonNode.get("libBAC").asText());
                             imp.setImportOperation(operation);
                             import629Repository.save(imp);
                         }
@@ -109,6 +112,19 @@ public class Import629Service {
                 .stream()
                 .map(import629 -> mapToDTO(import629, new Import629DTO()))
                 .collect(Collectors.toList());
+    }
+
+    public Map<String, Object> getAllImport(int page, int limit){
+
+        Map<String, Object> results = new HashMap<>();
+
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<Import629DTO> stockImport = import629Repository.findAll(pageable)
+                .map(import629 -> mapToDTO(import629, new Import629DTO()));
+        results.put("data", stockImport.getContent());
+        results.put("structure", stockImport.getTotalElements());
+        return results;
+
     }
 
     public Import629DTO get(final UUID id) {

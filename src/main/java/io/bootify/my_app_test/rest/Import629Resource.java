@@ -39,6 +39,11 @@ public class Import629Resource {
         return ResponseEntity.ok(import629Service.findAll());
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll(int page, int limit){
+        return  new ResponseEntity<>(import629Service.getAllImport(page,limit), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Import629DTO> getImport629(@PathVariable final UUID id) {
         return ResponseEntity.ok(import629Service.get(id));

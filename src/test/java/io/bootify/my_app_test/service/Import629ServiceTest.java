@@ -33,6 +33,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -489,6 +491,191 @@ class Import629ServiceTest {
         verify(operation2).setNumCarte((String) any());
         verify(operation2).setSdbr1((String) any());
         verify(operation2).setSdbr2((String) any());
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    void testGetAllImport() {
+        when(import629Repository.findAll((Pageable) any())).thenReturn(new PageImpl<>(new ArrayList<>()));
+        assertEquals(2, import629Service.getAllImport(1, 1).size());
+        verify(import629Repository).findAll((Pageable) any());
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    void testGetAllImport2() {
+        Operation operation = new Operation();
+        operation.setDateCreated(null);
+        operation.setDossier2("data");
+        operation.setDossier3("data");
+        operation.setId(UUID.randomUUID());
+        operation.setImportOperationImport629s(new HashSet<>());
+        operation.setLastUpdated(null);
+        operation.setLibBac("data");
+        operation.setMtnComp(10.0d);
+        operation.setNumCarte("data");
+        operation.setSdbr1("data");
+        operation.setSdbr2("data");
+
+        Import629 import629 = new Import629();
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        import629.setDateAop(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        import629.setDateCreated(null);
+        import629.setDateTreso("2020-03-01");
+        import629.setDenote("data");
+        import629.setEntite2("data");
+        import629.setEntite3("data");
+        import629.setEntite4("data");
+        import629.setId(UUID.randomUUID());
+        import629.setImportOperation(operation);
+        import629.setLastUpdated(null);
+        import629.setLibac("data");
+        import629.setMnt1(10.0d);
+        import629.setMtn2(10.0d);
+        import629.setSiegeDenot("data");
+
+        ArrayList<Import629> import629List = new ArrayList<>();
+        import629List.add(import629);
+        PageImpl<Import629> pageImpl = new PageImpl<>(import629List);
+        when(import629Repository.findAll((Pageable) any())).thenReturn(pageImpl);
+        assertEquals(2, import629Service.getAllImport(1, 1).size());
+        verify(import629Repository).findAll((Pageable) any());
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    void testGetAllImport3() {
+        Operation operation = new Operation();
+        operation.setDateCreated(null);
+        operation.setDossier2("data");
+        operation.setDossier3("data");
+        operation.setId(UUID.randomUUID());
+        operation.setImportOperationImport629s(new HashSet<>());
+        operation.setLastUpdated(null);
+        operation.setLibBac("data");
+        operation.setMtnComp(10.0d);
+        operation.setNumCarte("data");
+        operation.setSdbr1("data");
+        operation.setSdbr2("data");
+
+        Import629 import629 = new Import629();
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        import629.setDateAop(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        import629.setDateCreated(null);
+        import629.setDateTreso("2020-03-01");
+        import629.setDenote("data");
+        import629.setEntite2("data");
+        import629.setEntite3("data");
+        import629.setEntite4("data");
+        import629.setId(UUID.randomUUID());
+        import629.setImportOperation(operation);
+        import629.setLastUpdated(null);
+        import629.setLibac("data");
+        import629.setMnt1(10.0d);
+        import629.setMtn2(10.0d);
+        import629.setSiegeDenot("data");
+
+        Operation operation1 = new Operation();
+        operation1.setDateCreated(null);
+        operation1.setDossier2("data");
+        operation1.setDossier3("data");
+        operation1.setId(UUID.randomUUID());
+        operation1.setImportOperationImport629s(new HashSet<>());
+        operation1.setLastUpdated(null);
+        operation1.setLibBac("data");
+        operation1.setMtnComp(10.0d);
+        operation1.setNumCarte("data");
+        operation1.setSdbr1("data");
+        operation1.setSdbr2("data");
+
+        Import629 import6291 = new Import629();
+        LocalDateTime atStartOfDayResult1 = LocalDate.of(1970, 1, 1).atStartOfDay();
+        import6291.setDateAop(Date.from(atStartOfDayResult1.atZone(ZoneId.of("UTC")).toInstant()));
+        import6291.setDateCreated(null);
+        import6291.setDateTreso("2020-03-01");
+        import6291.setDenote("data");
+        import6291.setEntite2("data");
+        import6291.setEntite3("data");
+        import6291.setEntite4("data");
+        import6291.setId(UUID.randomUUID());
+        import6291.setImportOperation(operation1);
+        import6291.setLastUpdated(null);
+        import6291.setLibac("data");
+        import6291.setMnt1(10.0d);
+        import6291.setMtn2(10.0d);
+        import6291.setSiegeDenot("data");
+
+        ArrayList<Import629> import629List = new ArrayList<>();
+        import629List.add(import6291);
+        import629List.add(import629);
+        PageImpl<Import629> pageImpl = new PageImpl<>(import629List);
+        when(import629Repository.findAll((Pageable) any())).thenReturn(pageImpl);
+        assertEquals(2, import629Service.getAllImport(1, 1).size());
+        verify(import629Repository).findAll((Pageable) any());
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testGetAllImport4() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException
+        //       at io.bootify.my_app_test.service.Import629Service.getAllImport(Import629Service.java:123)
+        //   In order to prevent getAllImport(int, int)
+        //   from throwing NullPointerException, add constructors or factory
+        //   methods that make it easier to construct fully initialized objects used in
+        //   getAllImport(int, int).
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        when(import629Repository.findAll((Pageable) any())).thenReturn(null);
+        import629Service.getAllImport(1, 1);
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testGetAllImport5() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.IllegalArgumentException: Page index must not be less than zero
+        //       at org.springframework.data.domain.AbstractPageRequest.<init>(AbstractPageRequest.java:45)
+        //       at org.springframework.data.domain.PageRequest.<init>(PageRequest.java:45)
+        //       at org.springframework.data.domain.PageRequest.of(PageRequest.java:72)
+        //       at org.springframework.data.domain.PageRequest.of(PageRequest.java:60)
+        //       at io.bootify.my_app_test.service.Import629Service.getAllImport(Import629Service.java:121)
+        //   In order to prevent getAllImport(int, int)
+        //   from throwing IllegalArgumentException, add constructors or factory
+        //   methods that make it easier to construct fully initialized objects used in
+        //   getAllImport(int, int).
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        when(import629Repository.findAll((Pageable) any())).thenReturn(new PageImpl<>(new ArrayList<>()));
+        import629Service.getAllImport(-1, 1);
+    }
+
+    /**
+     * Method under test: {@link Import629Service#getAllImport(int, int)}
+     */
+    @Test
+    void testGetAllImport6() {
+        when(import629Repository.findAll((Pageable) any())).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
+        assertThrows(ResponseStatusException.class, () -> import629Service.getAllImport(1, 1));
+        verify(import629Repository).findAll((Pageable) any());
     }
 }
 

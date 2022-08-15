@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -25,6 +26,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -647,6 +649,23 @@ class Import629ResourceTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
+    }
+
+    /**
+     * Method under test: {@link Import629Resource#getAll(int, int)}
+     */
+    @Test
+    void testGetAll() throws Exception {
+        when(import629Service.getAllImport(anyInt(), anyInt())).thenReturn(new HashMap<>());
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/import629s/all");
+        MockHttpServletRequestBuilder paramResult = getResult.param("limit", String.valueOf(1));
+        MockHttpServletRequestBuilder requestBuilder = paramResult.param("page", String.valueOf(1));
+        MockMvcBuilders.standaloneSetup(import629Resource)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 }
 
