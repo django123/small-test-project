@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import io.bootify.my_app_test.domain.Import629;
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.Import629DTO;
+import io.bootify.my_app_test.model.Import629LightDTO;
 import io.bootify.my_app_test.repos.Import629Repository;
 import io.bootify.my_app_test.repos.OperationRepository;
 
@@ -32,15 +33,15 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-@ContextConfiguration(classes = {Import629Service.class})
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
 class Import629ServiceTest {
     @MockBean
@@ -55,197 +56,65 @@ class Import629ServiceTest {
     /**
      * Method under test: {@link Import629Service#addImport629Fraude(UUID)}
      */
-    @Test
-    void testAddImport629Fraude() {
-        Operation operation = new Operation();
-        operation.setDateCreated(null);
-        operation.setDossier2("Dossier2");
-        operation.setDossier3("Dossier3");
-        operation.setId(UUID.randomUUID());
-        operation.setImportOperationImport629s(new HashSet<>());
-        operation.setLastUpdated(null);
-        operation.setLibBac("Lib Bac");
-        operation.setMtnComp(10.0d);
-        operation.setNumCarte("Num Carte");
-        operation.setSdbr1("Sdbr1");
-        operation.setSdbr2("Sdbr2");
 
-        Import629 import629 = new Import629();
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        import629.setDateAop(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
-        import629.setDateCreated(null);
-        import629.setDateTreso("2020-03-01");
-        import629.setDenote("Denote");
-        import629.setEntite2("Entite2");
-        import629.setEntite3("Entite3");
-        import629.setEntite4("Entite4");
-        import629.setId(UUID.randomUUID());
-        import629.setImportOperation(operation);
-        import629.setLastUpdated(null);
-        import629.setLibac("Libac");
-        import629.setMnt1(10.0d);
-        import629.setMtn2(10.0d);
-        import629.setSiegeDenot("Siege Denot");
-        when(import629Repository.save((Import629) any())).thenReturn(import629);
-
-        Operation operation1 = new Operation();
-        operation1.setDateCreated(null);
-        operation1.setDossier2("Dossier2");
-        operation1.setDossier3("Dossier3");
-        operation1.setId(UUID.randomUUID());
-        operation1.setImportOperationImport629s(new HashSet<>());
-        operation1.setLastUpdated(null);
-        operation1.setLibBac("Lib Bac");
-        operation1.setMtnComp(10.0d);
-        operation1.setNumCarte("Num Carte");
-        operation1.setSdbr1("Sdbr1");
-        operation1.setSdbr2("Sdbr2");
-        Optional<Operation> ofResult = Optional.of(operation1);
-        when(operationRepository.findById((UUID) any())).thenReturn(ofResult);
-        Import629DTO actualAddImport629FraudeResult = import629Service.addImport629Fraude(UUID.randomUUID());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        assertEquals("2022-07-23", simpleDateFormat.format(actualAddImport629FraudeResult.getDateAop()));
-        assertEquals("Sdbr2", actualAddImport629FraudeResult.getSiegeDenot());
-        assertEquals(-10.0d, actualAddImport629FraudeResult.getMtn2().doubleValue());
-        assertEquals(10.0d, actualAddImport629FraudeResult.getMnt1().doubleValue());
-        assertEquals("LEIV254 DTNBP00049741043440IC020408GJJc75056", actualAddImport629FraudeResult.getLibac());
-        assertNull(actualAddImport629FraudeResult.getId());
-        assertNull(actualAddImport629FraudeResult.getEntite4());
-        assertNull(actualAddImport629FraudeResult.getEntite3());
-        assertNull(actualAddImport629FraudeResult.getEntite2());
-        assertEquals("Num CarteSdbr1", actualAddImport629FraudeResult.getDenote());
-        verify(import629Repository).save((Import629) any());
-        verify(operationRepository).findById((UUID) any());
-    }
 
     /**
-     * Method under test: {@link Import629Service#addImport629Fraude(UUID)}
+     * Method under test: {@link Import629Service#addImport629Fraude(UUID, Import629LightDTO)}
      */
     @Test
-    void testAddImport629Fraude2() {
-        when(import629Repository.save((Import629) any())).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
+    void testAddImport629Fraude() {
+        UUID id = UUID.randomUUID();
 
-        Operation operation = new Operation();
-        operation.setDateCreated(null);
-        operation.setDossier2("Dossier2");
-        operation.setDossier3("Dossier3");
-        operation.setId(UUID.randomUUID());
-        operation.setImportOperationImport629s(new HashSet<>());
-        operation.setLastUpdated(null);
-        operation.setLibBac("Lib Bac");
-        operation.setMtnComp(10.0d);
-        operation.setNumCarte("Num Carte");
-        operation.setSdbr1("Sdbr1");
-        operation.setSdbr2("Sdbr2");
-        Optional<Operation> ofResult = Optional.of(operation);
-        when(operationRepository.findById((UUID) any())).thenReturn(ofResult);
-        Import629DTO actualAddImport629FraudeResult = import629Service.addImport629Fraude(UUID.randomUUID());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        assertEquals("2022-07-23", simpleDateFormat.format(actualAddImport629FraudeResult.getDateAop()));
-        assertEquals("Sdbr2", actualAddImport629FraudeResult.getSiegeDenot());
-        assertEquals(-10.0d, actualAddImport629FraudeResult.getMtn2().doubleValue());
-        assertEquals(10.0d, actualAddImport629FraudeResult.getMnt1().doubleValue());
-        assertEquals("LEIV254 DTNBP00049741043440IC020408GJJc75056", actualAddImport629FraudeResult.getLibac());
-        assertNull(actualAddImport629FraudeResult.getId());
-        assertNull(actualAddImport629FraudeResult.getEntite4());
-        assertNull(actualAddImport629FraudeResult.getEntite3());
-        assertNull(actualAddImport629FraudeResult.getEntite2());
-        assertEquals("Num CarteSdbr1", actualAddImport629FraudeResult.getDenote());
-        verify(import629Repository).save((Import629) any());
-        verify(operationRepository).findById((UUID) any());
+        Import629LightDTO import629LightDTO = new Import629LightDTO();
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        import629LightDTO.setDateAccoc(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        import629LightDTO.setLibac("Libac");
+        import629LightDTO.setMntAccoc(10.0d);
+        import629LightDTO.setTypeImport("Type Import");
+        assertThrows(ResponseStatusException.class, () -> import629Service.addImport629Fraude(id, import629LightDTO));
     }
 
     /**
-     * Method under test: {@link Import629Service#addImport629Fraude(UUID)}
+     * Method under test: {@link Import629Service#addImport629Fraude(UUID, Import629LightDTO)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testAddImport629Fraude2() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   org.springframework.dao.InvalidDataAccessApiUsageException: The given id must not be null!; nested exception is java.lang.IllegalArgumentException: The given id must not be null!
+        //       at com.sun.proxy.$Proxy165.findById(null)
+        //       at io.bootify.my_app_test.service.Import629Service.addImport629Fraude(Import629Service.java:53)
+        //   java.lang.IllegalArgumentException: The given id must not be null!
+        //       at com.sun.proxy.$Proxy165.findById(null)
+        //       at io.bootify.my_app_test.service.Import629Service.addImport629Fraude(Import629Service.java:53)
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        Import629LightDTO import629LightDTO = new Import629LightDTO();
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        import629LightDTO.setDateAccoc(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        import629LightDTO.setLibac("Libac");
+        import629LightDTO.setMntAccoc(10.0d);
+        import629LightDTO.setTypeImport("Type Import");
+        import629Service.addImport629Fraude(null, import629LightDTO);
+    }
+
+    /**
+     * Method under test: {@link Import629Service#addImport629Fraude(UUID, Import629LightDTO)}
      */
     @Test
     void testAddImport629Fraude3() {
-        Operation operation = new Operation();
-        operation.setDateCreated(null);
-        operation.setDossier2("Dossier2");
-        operation.setDossier3("Dossier3");
-        operation.setId(UUID.randomUUID());
-        operation.setImportOperationImport629s(new HashSet<>());
-        operation.setLastUpdated(null);
-        operation.setLibBac("Lib Bac");
-        operation.setMtnComp(10.0d);
-        operation.setNumCarte("Num Carte");
-        operation.setSdbr1("Sdbr1");
-        operation.setSdbr2("Sdbr2");
+        UUID id = new UUID(1L, 1L);
 
-        Import629 import629 = new Import629();
+        Import629LightDTO import629LightDTO = new Import629LightDTO();
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        import629.setDateAop(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
-        import629.setDateCreated(null);
-        import629.setDateTreso("2020-03-01");
-        import629.setDenote("Denote");
-        import629.setEntite2("Entite2");
-        import629.setEntite3("Entite3");
-        import629.setEntite4("Entite4");
-        import629.setId(UUID.randomUUID());
-        import629.setImportOperation(operation);
-        import629.setLastUpdated(null);
-        import629.setLibac("Libac");
-        import629.setMnt1(10.0d);
-        import629.setMtn2(10.0d);
-        import629.setSiegeDenot("Siege Denot");
-        when(import629Repository.save((Import629) any())).thenReturn(import629);
-        Operation operation1 = mock(Operation.class);
-        when(operation1.getMtnComp()).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
-        when(operation1.getNumCarte()).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
-        when(operation1.getSdbr1()).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
-        when(operation1.getSdbr2()).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
-        when(operation1.getId()).thenReturn(UUID.randomUUID());
-        doNothing().when(operation1).setDateCreated((OffsetDateTime) any());
-        doNothing().when(operation1).setDossier2((String) any());
-        doNothing().when(operation1).setDossier3((String) any());
-        doNothing().when(operation1).setId((UUID) any());
-        doNothing().when(operation1).setImportOperationImport629s((Set<Import629>) any());
-        doNothing().when(operation1).setLastUpdated((OffsetDateTime) any());
-        doNothing().when(operation1).setLibBac((String) any());
-        doNothing().when(operation1).setMtnComp((Double) any());
-        doNothing().when(operation1).setNumCarte((String) any());
-        doNothing().when(operation1).setSdbr1((String) any());
-        doNothing().when(operation1).setSdbr2((String) any());
-        operation1.setDateCreated(null);
-        operation1.setDossier2("Dossier2");
-        operation1.setDossier3("Dossier3");
-        operation1.setId(UUID.randomUUID());
-        operation1.setImportOperationImport629s(new HashSet<>());
-        operation1.setLastUpdated(null);
-        operation1.setLibBac("Lib Bac");
-        operation1.setMtnComp(10.0d);
-        operation1.setNumCarte("Num Carte");
-        operation1.setSdbr1("Sdbr1");
-        operation1.setSdbr2("Sdbr2");
-        Optional<Operation> ofResult = Optional.of(operation1);
-        when(operationRepository.findById((UUID) any())).thenReturn(ofResult);
-        Import629DTO actualAddImport629FraudeResult = import629Service.addImport629Fraude(UUID.randomUUID());
-        assertNull(actualAddImport629FraudeResult.getDateAop());
-        assertNull(actualAddImport629FraudeResult.getSiegeDenot());
-        assertNull(actualAddImport629FraudeResult.getMtn2());
-        assertNull(actualAddImport629FraudeResult.getMnt1());
-        assertNull(actualAddImport629FraudeResult.getLibac());
-        assertNull(actualAddImport629FraudeResult.getId());
-        assertNull(actualAddImport629FraudeResult.getEntite4());
-        assertNull(actualAddImport629FraudeResult.getEntite3());
-        assertNull(actualAddImport629FraudeResult.getEntite2());
-        assertNull(actualAddImport629FraudeResult.getDenote());
-        assertNull(actualAddImport629FraudeResult.getDateTreso());
-        verify(operationRepository).findById((UUID) any());
-        verify(operation1).getMtnComp();
-        verify(operation1).getId();
-        verify(operation1).setDateCreated((OffsetDateTime) any());
-        verify(operation1).setDossier2((String) any());
-        verify(operation1).setDossier3((String) any());
-        verify(operation1).setId((UUID) any());
-        verify(operation1).setImportOperationImport629s((Set<Import629>) any());
-        verify(operation1).setLastUpdated((OffsetDateTime) any());
-        verify(operation1).setLibBac((String) any());
-        verify(operation1).setMtnComp((Double) any());
-        verify(operation1).setNumCarte((String) any());
-        verify(operation1).setSdbr1((String) any());
-        verify(operation1).setSdbr2((String) any());
+        import629LightDTO.setDateAccoc(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        import629LightDTO.setLibac("Libac");
+        import629LightDTO.setMntAccoc(10.0d);
+        import629LightDTO.setTypeImport("Type Import");
+        assertThrows(ResponseStatusException.class, () -> import629Service.addImport629Fraude(id, import629LightDTO));
     }
 
     /**

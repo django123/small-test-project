@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bootify.my_app_test.domain.Import629;
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.Import629DTO;
+import io.bootify.my_app_test.model.Import629LightDTO;
 import io.bootify.my_app_test.repos.Import629Repository;
 import io.bootify.my_app_test.repos.OperationRepository;
 
@@ -36,13 +37,7 @@ public class Import629Service {
     private final Import629Repository import629Repository;
     private final OperationRepository operationRepository;
 
-    private static String json = "{\n" +
-            "    \"mntAccoc\": \"8.00\",\n" +
-            "    \"rib\": \"0081500000070464\",\n" +
-            "    \"typeImport\": \"import630_10254\",\n" +
-            "    \"id\": \"20afc36f-b0d6-47e3-ba5b-24c37e650399\",\n" +
-            "    \"libBAC\": \"LEIV254 DTNBP00049741043440IC020408GJJc75056\"\n" +
-            "}\n";
+
 
     public Import629Service(final Import629Repository import629Repository,
             final OperationRepository operationRepository) {
@@ -50,30 +45,26 @@ public class Import629Service {
         this.operationRepository = operationRepository;
     }
 
-    public Import629DTO addImport629Fraude(final UUID id) {
+    public Import629DTO addImport629Fraude(final UUID id, Import629LightDTO dto) {
 
-                Import629DTO import629DTO = new Import629DTO();
-                Import629 imp = fromImport629Dto(import629DTO);
+        Import629DTO import629DTO = new Import629DTO();
+        Import629 imp = fromImport629Dto(import629DTO);
 
-                try {
                     Operation operation = operationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-                    //JSONObject jsonObject = new JSONObject(json);
-                    ObjectMapper mapper = new ObjectMapper();
-                    JsonNode jsonNode = mapper.readTree(json);
-                        if (operation.getId() != null && operation.getMtnComp() <= 40){
-                            imp.setMnt1(operation.getMtnComp());
+
+                        if (operation.getId() != null){
+                            imp.setMnt1(operation.getMtnComp()- dto.getMntAccoc());
                             imp.setMtn2(-operation.getMtnComp());
                             imp.setDenote(operation.getNumCarte()+""+operation.getSdbr1());
                             imp.setSiegeDenot(operation.getSdbr2());
                             imp.setDateTreso(convertDateToString(new Date()));
                             imp.setDateAop(convertStringToDate("20220723"));
-                            imp.setLibac(jsonNode.get("libBAC").asText());
+                            imp.setLibac(dto.getLibac());
+                            imp.setTypeImport(dto.getTypeImport());
                             imp.setImportOperation(operation);
                             import629Repository.save(imp);
                         }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
 
             return fromImport629(imp);
     }
@@ -171,6 +162,12 @@ public class Import629Service {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "importOperation not found"));
         import629.setImportOperation(importOperation);
         return import629;
+    }
+
+    private Import629 mapToEntity2(final Import629LightDTO dto){
+        Import629 import629 = new Import629();
+        BeanUtils.copyProperties(dto, import629);
+        return  import629;
     }
 
     private Import629DTO fromImport629(Import629 import629){

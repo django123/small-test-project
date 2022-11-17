@@ -2,6 +2,7 @@ package io.bootify.my_app_test.rest;
 
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.Import629DTO;
+import io.bootify.my_app_test.model.Import629LightDTO;
 import io.bootify.my_app_test.repos.OperationRepository;
 import io.bootify.my_app_test.service.Import629Service;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,10 +50,12 @@ public class Import629Resource {
         return ResponseEntity.ok(import629Service.get(id));
     }
 
-    @GetMapping("/operation/{id}")
-    public ResponseEntity<Import629DTO> addImportFraude(@PathVariable final UUID id){
-        Operation operation = operationRepository.findById(id).orElseThrow();
-        return ResponseEntity.ok(import629Service.addImport629Fraude(operation.getId()));
+
+    @PostMapping("/operation/{id}")
+    @ApiResponse(responseCode = "201")
+    public ResponseEntity<Import629DTO> addImportFraude(@PathVariable final UUID id, @RequestBody Import629LightDTO dto){
+        Operation operation = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation id " +id + " not found"));
+        return ResponseEntity.ok(import629Service.addImport629Fraude(operation.getId(),dto));
     }
 
     @PostMapping
