@@ -45,6 +45,36 @@ public class Operation {
     private String dossier3;
     private String libBac;
 
+    private String typeImport;
+
+    private Double mntAccoc;
+
+    private String libac;
+
+    public String getLibBac() {
+        return libBac;
+    }
+
+    public void setLibBac(String libBac) {
+        this.libBac = libBac;
+    }
+
+    public Double getMntAccoc() {
+        return mntAccoc;
+    }
+
+    public void setMntAccoc(Double mntAccoc) {
+        this.mntAccoc = mntAccoc;
+    }
+
+    public String getTypeImport() {
+        return typeImport;
+    }
+
+    public void setTypeImport(String typeImport) {
+        this.typeImport = typeImport;
+    }
+
     @OneToMany(mappedBy = "importOperation")
     private Set<Import629> importOperationImport629s;
 

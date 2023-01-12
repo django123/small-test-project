@@ -1,8 +1,11 @@
 package io.bootify.my_app_test.service;
 
+import io.bootify.my_app_test.domain.Import629;
 import io.bootify.my_app_test.domain.Operation;
 import io.bootify.my_app_test.model.OperationDTO;
+import io.bootify.my_app_test.repos.Import629Repository;
 import io.bootify.my_app_test.repos.OperationRepository;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,8 +20,11 @@ public class OperationService {
 
     private final OperationRepository operationRepository;
 
-    public OperationService(final OperationRepository operationRepository) {
+    private final Import629Repository import629Repository;
+
+    public OperationService(final OperationRepository operationRepository, Import629Repository import629Repository) {
         this.operationRepository = operationRepository;
+        this.import629Repository = import629Repository;
     }
 
     public List<OperationDTO> findAll() {
@@ -51,6 +57,16 @@ public class OperationService {
         operationRepository.deleteById(id);
     }
 
+    public void generateImport(Operation operation) {
+        operationRepository.save(operation);
+        switch (operation.getTypeImport()) {
+            case "Import629_10211":
+                generateImport629_10211(operation);
+                break;
+            default:
+                break;
+        }
+    }
     private OperationDTO mapToDTO(final Operation operation, final OperationDTO operationDTO) {
         operationDTO.setId(operation.getId());
         operationDTO.setMtnComp(operation.getMtnComp());
@@ -66,6 +82,24 @@ public class OperationService {
         operation.setSdbr1(operationDTO.getSdbr1());
         operation.setSdbr2(operationDTO.getSdbr2());
         return operation;
+    }
+
+    private void generateImport629_10211(Operation operation){
+        Import629 imp = new Import629();
+        imp.setMnt1(operation.getMtnComp()- operation.getMntAccoc());
+        imp.setMtn2(-operation.getMtnComp());
+        imp.setDenote(generate(operation)+""+operation.getSdbr1());
+        imp.setSiegeDenot(operation.getSdbr2());
+        imp.setLibac(operation.getLibac());
+        imp.setTypeImport(operation.getTypeImport());
+        imp.setImportOperation(operation);
+        import629Repository.save(imp);
+    }
+
+    String generate(Operation operation){
+        if (operation.getNumCarte().substring(3,19) != null)
+            return operation.getNumCarte().substring(3,19);
+        return "";
     }
 
 }
